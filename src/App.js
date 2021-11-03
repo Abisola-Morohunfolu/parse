@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import Parse from 'parse';
 import './App.css';
 
+import { initializeParse } from '@parse/react';
+import { useState } from 'react';
+
+initializeParse('http://culvert.gamequiz.live/parse', 'playroom', 'playroom-JSKEY');
+Parse.CoreManager.setStorageController(Parse.IndexedDB);
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [currentUser, setCurrentUser] = useState(null);
+	const onClick = async () => {
+		await Parse.Cloud.run('hello').then(function (response) {
+			console.log(response);
+		});
+		// const user = await Parse.User.logIn('bettepearson@quiztest.tst', '14143');
+		// if (user.id) {
+		// 	const query = new Parse.Query(Parse.User);
+		// 	query.equalTo('username', 'bettepearson@quiztest.tst');
+		// 	const loggedUser = await query.find();
+		// 	const jsondata = await JSON.stringify(loggedUser);
+		// 	const parseDate = await JSON.parse(jsondata);
+		// 	setCurrentUser(parseDate[0]);
+		// }
+	};
+
+	return (
+		<div className="App">
+			{!currentUser && <button onClick={onClick}>Log user in</button>}
+			{currentUser && <p>{currentUser.name}</p>}
+		</div>
+	);
 }
 
 export default App;
