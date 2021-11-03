@@ -2,13 +2,13 @@ import Parse from 'parse';
 import './App.css';
 
 import { initializeParse } from '@parse/react';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 initializeParse('http://culvert.gamequiz.live/parse', 'playroom', 'playroom-JSKEY');
 Parse.CoreManager.setStorageController(Parse.IndexedDB);
 
 function App() {
-	const [currentUser, setCurrentUser] = useState(null);
+	// const [currentUser, setCurrentUser] = useState(null);
 	const onClick = async () => {
 		await Parse.Cloud.run('hello').then(function (response) {
 			console.log(response);
@@ -26,8 +26,7 @@ function App() {
 
 	return (
 		<div className="App">
-			{!currentUser && <button onClick={onClick}>Log user in</button>}
-			{currentUser && <p>{currentUser.name}</p>}
+			<button onClick={onClick}>Log user in</button>
 		</div>
 	);
 }
